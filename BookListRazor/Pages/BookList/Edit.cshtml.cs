@@ -24,14 +24,15 @@ namespace BookListRazor.Pages.BookList
             Book = await _db.Book.FindAsync(Id);
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPost(int Id)
         {
             if (ModelState.IsValid)
             {
-                var bookFromDb = await _db.Book.FindAsync(Book.Id);
+                
+                var bookFromDb = await _db.Book.FindAsync(Id);
                 bookFromDb.Name = Book.Name;
                 bookFromDb.Author = Book.Author;
-                bookFromDb.ISBN = Book.ISBN;
+                bookFromDb.ISBN = Book.ISBN;              
                 await _db.SaveChangesAsync();
                 return RedirectToPage("Index");
             }
