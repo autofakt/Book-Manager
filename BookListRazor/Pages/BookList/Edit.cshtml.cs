@@ -27,8 +27,7 @@ namespace BookListRazor.Pages.BookList
         public async Task<IActionResult> OnPost(int Id)
         {
             if (ModelState.IsValid)
-            {
-                
+            {  
                 var bookFromDb = await _db.Book.FindAsync(Id);
                 bookFromDb.Name = Book.Name;
                 bookFromDb.Author = Book.Author;
