@@ -19,12 +19,13 @@ function loadDataTable() {
                 "data": "id",
                 "render": function (data) {
                     return `<div class="text-center">
-                        <a href="/BookList/Edit?id=${data}" class='btn btn-success text-white' style='cursor:pointer; width:70px;'>
-                            Edit
+                        <a class='btn btn-danger text-white' style='cursor:pointer; width:70px;'
+                            onclick=Delete('/api/book?id='+${data})>
+                            Delete
                         </a>
                         &nbsp;
-                        <a href="/BookList/Delete?id=${data}" class='btn btn-danger text-white' style='cursor:pointer; width:70px;'>
-                            Delete
+                        <a href="/BookList/Edit?id=${data}" class='btn btn-success text-white' style='cursor:pointer; width:70px;'>
+                            Edit
                         </a>
                         </div>`;
                 }, "width": "40%"
@@ -39,4 +40,36 @@ function loadDataTable() {
 /* <a class='btn btn-danger text-white' style='cursor:pointer; width:70px;'
                             onclick=Delete('/api/book?id='+${data})>
                             Delete
-                        </a> */
+                        </a> 
+   
+   <a href="/BookList/Delete?id=${data}" class='btn btn-danger text-white' style='cursor:pointer; width:70px;'>
+                            Delete
+                        </a>
+
+                      */
+
+function Delete(url) {
+    swal({
+        title: "Are you Sure?",
+        text: "Once deleted, you will not be bale to recover",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                type: "DELETE",
+                url: url,
+                success: function (data) {
+                    if (data.success) {
+                        toastr.success(data.message);
+                        dataTable.ajax.reload();
+                    }
+                    else {
+                        toastr.error(data.message)
+                    }
+                }
+            })
+        }
+    })
+}

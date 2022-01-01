@@ -19,9 +19,9 @@ namespace BookListRazor.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            return Json(new { data = _db.Book.ToList() });
+            return Json(new { data = await _db.Book.ToListAsync() });
         }
 
         [HttpDelete]
